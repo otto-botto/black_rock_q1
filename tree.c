@@ -12,6 +12,7 @@ Node* makeNode(char* name) {
     assert(node);
     strcpy(node->name, name);
     node->children.head = NULL;
+    node->parent = NULL;
     return node;
 }
 
@@ -22,6 +23,8 @@ void addChild(Node* parent, Node* child) {
 
     // wire the child
     childNew->child = child;
+    childNew->parent = parent;
+    child->parent = parent;
     childNew->next = NULL;
 
     //get to end of children list and add
@@ -37,7 +40,7 @@ void addChild(Node* parent, Node* child) {
     }
 }
 
-/* find a child so later can track back parent */
+/* find a child (DFS) so later can track back parent */
 
 ChildNode* findChild(Node* start, char* name){
     if (start == NULL || start->children.head == NULL) {
@@ -59,4 +62,18 @@ ChildNode* findChild(Node* start, char* name){
     }
     return NULL;
 
+}
+
+int distBoss(ChildNode* child) {
+    if (!child || !child->parent) {
+        return 0;
+    }else {
+        int dist = 0;
+        Node* curr = child->child;
+        while (curr) {
+            dist++;
+            curr = curr->parent;
+        }
+        return dist - 1;
+    }
 }
