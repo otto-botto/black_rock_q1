@@ -36,3 +36,27 @@ void addChild(Node* parent, Node* child) {
         currNode->next = childNew;
     }
 }
+
+/* find a child so later can track back parent */
+
+ChildNode* findChild(Node* start, char* name){
+    if (start == NULL || start->children.head == NULL) {
+        return NULL;
+    }else {
+        ChildNode* currChild = start->children.head;
+        while (currChild) {
+            Node* child = currChild->child;
+            if (strcmp(child->name, name) == 0) {
+                return currChild;
+            }else {
+                ChildNode* keepGoing = findChild(child, name);
+                if (keepGoing) {
+                    return keepGoing;
+                }
+                currChild = currChild->next;
+            }
+        }
+    }
+    return NULL;
+
+}

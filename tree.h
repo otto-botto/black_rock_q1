@@ -26,5 +26,6 @@ typedef struct Node {
 
 Node* makeNode(char* name);
 void addChild(Node* parent, Node* child);
+ChildNode* findChild(Node* parent, char* name);
 
 
